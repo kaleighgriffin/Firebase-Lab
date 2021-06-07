@@ -17,7 +17,7 @@ app.get("/hello", (req, res) => {
 app.get("/", async (req, res) => {
     try {
         const client = await getClient();
-        const results = await client.db().collection<ShoutOut>('shoutOuts').find().toArray();
+        const results = await client.db().collection<ShoutOut>('shoutouts').find().toArray();
         res.json(results); // send JSON results
     } catch (err) {
         console.error("FAIL", err);
@@ -30,7 +30,7 @@ app.post("/", async (req, res) => {
     const shoutout = req.body as ShoutOut;
     try {
         const client = await getClient();
-        const result = await client.db().collection<ShoutOut>('shoutOuts').insertOne(shoutout);
+        const result = await client.db().collection<ShoutOut>('shoutouts').insertOne(shoutout);
         shoutout._id = result.insertedId;
         res.status(201).json(shoutout);
     } catch (err) {
@@ -44,7 +44,7 @@ app.delete("/:id", async (req, res) => {
     const id = req.params.id;
     try {
         const client = await getClient();
-        const result = await client.db().collection<ShoutOut>('shoutOuts').deleteOne({ _id: new ObjectId(id) });
+        const result = await client.db().collection<ShoutOut>('shoutouts').deleteOne({ _id: new ObjectId(id) });
         if (result.deletedCount === 0) {
         res.status(404).json({message: "Not Found"});
         } else {
